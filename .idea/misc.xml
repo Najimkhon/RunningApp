@@ -3,10 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Kotlin/RunningApp/app/src/main/res/drawable-v24/ic_delete.xml" value="0.289" />
         <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/fragment_run.xml" value="0.25416666666666665" />
+        <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/fragment_settings.xml" value="0.18802083333333333" />
         <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/fragment_setup.xml" value="0.25416666666666665" />
         <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/fragment_statistics.xml" value="0.24010416666666667" />
+        <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/fragment_tracking.xml" value="0.17395833333333333" />
+        <entry key="..\:/Kotlin/RunningApp/app/src/main/res/layout/item_run.xml" value="0.18802083333333333" />
+        <entry key="..\:/Kotlin/RunningApp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.365625" />
       </map>
     </option>
   </component>
