@@ -1,11 +1,11 @@
 package com.hfad.runningapp.db
-
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.hfad.runningapp.db.models.Run
 
 @Dao
-interface RunDao {
+interface RunDAO {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRun(run: Run)
 

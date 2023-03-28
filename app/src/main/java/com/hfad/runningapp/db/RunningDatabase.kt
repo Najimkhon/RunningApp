@@ -1,6 +1,7 @@
 package com.hfad.runningapp.db
 
 import androidx.room.Database
+import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.hfad.runningapp.db.models.Run
 
@@ -9,6 +10,7 @@ import com.hfad.runningapp.db.models.Run
     version = 1
 )
 @TypeConverters(Converters::class)
-abstract class RunningDatabase {
-    abstract fun getRunDao(): RunDao
+abstract class RunningDatabase : RoomDatabase() {
+
+    abstract fun getRunDao(): RunDAO
 }
