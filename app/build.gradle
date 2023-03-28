@@ -50,7 +50,7 @@ dependencies {
 
 
     // Architectural Components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
+
 
     // Room
     implementation "androidx.room:room-runtime:2.5.0"
@@ -65,7 +65,9 @@ dependencies {
 
     // Coroutine Lifecycle Scopes
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.6.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.6.0"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.6.0"
 
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.3"
@@ -79,22 +81,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
-    // Dagger Core
-    implementation "com.google.dagger:dagger:2.44"
-    kapt "com.google.dagger:dagger-compiler:2.44"
-
-    // Dagger Android
-    api 'com.google.dagger:dagger-android:2.35.1'
-    api 'com.google.dagger:dagger-android-support:2.28.1'
-    kapt 'com.google.dagger:dagger-android-processor:2.23.2'
-
-    
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
-
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     // Easy Permissions
