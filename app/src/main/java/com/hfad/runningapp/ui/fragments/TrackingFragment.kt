@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.GoogleMap
 import com.hfad.runningapp.R
 import com.hfad.runningapp.base.BaseFragment
 import com.hfad.runningapp.databinding.FragmentTrackingBinding
 import com.hfad.runningapp.services.TrackingService
 import com.hfad.runningapp.ui.viewmodels.MainViewModel
+import com.hfad.runningapp.utils.Constants.ACTION_SHOW_TRACKING_FRAGMENT
 import com.hfad.runningapp.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 
 class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingBinding::inflate) {
@@ -20,6 +22,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
     private val viewModel: MainViewModel by viewModels()
 
     private var map: GoogleMap? = null
+
 
     override fun prepareUI(savedInstanceState: Bundle?) {
         super.prepareUI(savedInstanceState)
@@ -70,5 +73,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             it.action = action
             requireContext().startService(it)
         }
+
+
 
 }
