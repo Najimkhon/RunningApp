@@ -1,5 +1,6 @@
 package com.hfad.runningapp.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.hfad.runningapp.R
 import com.hfad.runningapp.base.BaseFragment
 import com.hfad.runningapp.databinding.FragmentTrackingBinding
+import com.hfad.runningapp.services.TrackingService
 import com.hfad.runningapp.ui.viewmodels.MainViewModel
+import com.hfad.runningapp.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 
 class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingBinding::inflate) {
 
@@ -23,6 +26,12 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
         binding.mapView.onCreate(savedInstanceState)
         binding.mapView.getMapAsync{
             map = it
+        }
+    }
+
+    override fun setListeners() {
+        binding.btnToggleRun.setOnClickListener{
+            sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
         }
     }
 
@@ -55,5 +64,11 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
         super.onSaveInstanceState(outState)
         binding.mapView.onSaveInstanceState(outState)
     }
+
+    private fun sendCommandToService(action: String)=
+        Intent(requireContext(), TrackingService::class.java).also {
+            it.action = action
+            requireContext().startService(it)
+        }
 
 }
