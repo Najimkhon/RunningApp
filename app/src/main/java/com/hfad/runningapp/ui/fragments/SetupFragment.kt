@@ -16,10 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class SetupFragment : BaseFragment<FragmentSetupBinding>
     (FragmentSetupBinding::inflate) {
 
-    override fun prepareUI() {
+    override fun prepareUI(savedInstanceState: Bundle?) {
         binding.tvContinue.setOnClickListener{
             findNavController().navigate(R.id.action_setupFragment_to_runFragment)
         }
     }
-
 }

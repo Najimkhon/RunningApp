@@ -2,6 +2,7 @@ package com.hfad.runningapp.ui.fragments
 
 import android.Manifest
 import android.os.Build
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.hfad.runningapp.R
@@ -20,8 +21,8 @@ class RunFragment : BaseFragment<FragmentRunBinding>(FragmentRunBinding::inflate
 
     private val viewModel: MainViewModel by viewModels()
 
-    override fun prepareUI() {
-       requestPermissions()
+    override fun prepareUI(savedInstanceState: Bundle?) {
+        requestPermissions()
     }
 
     override fun setListeners() {

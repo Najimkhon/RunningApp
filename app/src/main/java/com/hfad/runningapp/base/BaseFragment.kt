@@ -25,7 +25,7 @@ abstract class BaseFragment<VB : ViewBinding>(
         super.onViewCreated(view, savedInstanceState)
         assignObjects()
         setListeners()
-        prepareUI()
+        prepareUI(savedInstanceState)
         setObservers()
     }
 
@@ -36,7 +36,7 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     protected open fun assignObjects() {}
     protected open fun setListeners() {}
-    protected open fun prepareUI() {}
+    protected open fun prepareUI(savedInstanceState: Bundle?) {}
     protected open fun setObservers() {}
 
 }
