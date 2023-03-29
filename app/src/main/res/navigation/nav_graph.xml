@@ -9,7 +9,11 @@
         android:id="@+id/runFragment"
         android:name="com.hfad.runningapp.ui.fragments.RunFragment"
         android:label="fragment_run"
-        tools:layout="@layout/fragment_run" />
+        tools:layout="@layout/fragment_run" >
+        <action
+            android:id="@+id/action_runFragment_to_trackingFragment"
+            app:destination="@id/trackingFragment" />
+    </fragment>
     <fragment
         android:id="@+id/setupFragment"
         android:name="com.hfad.runningapp.ui.fragments.SetupFragment"
