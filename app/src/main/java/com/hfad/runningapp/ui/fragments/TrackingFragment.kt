@@ -17,6 +17,7 @@ import com.hfad.runningapp.utils.Constants.ACTION_START_OR_RESUME_SERVICE
 import com.hfad.runningapp.utils.Constants.MAP_ZOOM
 import com.hfad.runningapp.utils.Constants.POLYLINE_COLOR
 import com.hfad.runningapp.utils.Constants.POLYLINE_WIDTH
+import com.hfad.runningapp.utils.TrackingUtility
 
 
 class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingBinding::inflate) {
@@ -27,6 +28,9 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
     private var pathPoints = mutableListOf<Polyline>()
 
     private var map: GoogleMap? = null
+
+    private var curTimeInMillis = 0L
+
 
 
     override fun prepareUI(savedInstanceState: Bundle?) {
@@ -92,6 +96,12 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
+        }
+
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner){
+            curTimeInMillis = it
+            val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
+            binding.tvTimer.text = formattedTime
         }
     }
 
