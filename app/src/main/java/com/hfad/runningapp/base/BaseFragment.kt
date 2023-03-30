@@ -23,9 +23,9 @@ abstract class BaseFragment<VB : ViewBinding>(
 
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prepareUI(savedInstanceState)
         assignObjects()
         setListeners()
-        prepareUI(savedInstanceState)
         setObservers()
     }
 

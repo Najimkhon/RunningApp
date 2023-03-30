@@ -45,22 +45,22 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
 
     override fun onStart() {
         super.onStart()
-        binding.mapView.onResume()
+        binding.mapView.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        binding.mapView.onResume()
+        binding.mapView.onStop()
     }
 
     override fun onPause() {
         super.onPause()
-        binding.mapView.onResume()
+        binding.mapView.onPause()
     }
 
     override fun onLowMemory() {
         super.onLowMemory()
-        binding.mapView.onResume()
+        binding.mapView.onLowMemory()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -73,7 +73,4 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             it.action = action
             requireContext().startService(it)
         }
-
-
-
 }

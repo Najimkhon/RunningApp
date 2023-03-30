@@ -56,7 +56,6 @@ class RunFragment : BaseFragment<FragmentRunBinding>(FragmentRunBinding::inflate
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
-        TODO("Not yet implemented")
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
@@ -73,6 +72,7 @@ class RunFragment : BaseFragment<FragmentRunBinding>(FragmentRunBinding::inflate
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }
