@@ -41,5 +41,9 @@
         android:id="@+id/trackingFragment"
         android:name="com.hfad.runningapp.ui.fragments.TrackingFragment"
         android:label="fragment_tracking"
-        tools:layout="@layout/fragment_tracking" />
+        tools:layout="@layout/fragment_tracking" >
+        <action
+            android:id="@+id/action_trackingFragment_to_runFragment"
+            app:destination="@id/runFragment" />
+    </fragment>
 </navigation>

@@ -2,11 +2,17 @@ package com.hfad.runningapp.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.hfad.runningapp.R
 import com.hfad.runningapp.base.BaseFragment
 import com.hfad.runningapp.databinding.FragmentTrackingBinding
 import com.hfad.runningapp.services.Polyline
@@ -14,6 +20,7 @@ import com.hfad.runningapp.services.TrackingService
 import com.hfad.runningapp.ui.viewmodels.MainViewModel
 import com.hfad.runningapp.utils.Constants.ACTION_PAUSE_SERVICE
 import com.hfad.runningapp.utils.Constants.ACTION_START_OR_RESUME_SERVICE
+import com.hfad.runningapp.utils.Constants.ACTION_STOP_SERVICE
 import com.hfad.runningapp.utils.Constants.MAP_ZOOM
 import com.hfad.runningapp.utils.Constants.POLYLINE_COLOR
 import com.hfad.runningapp.utils.Constants.POLYLINE_WIDTH
@@ -31,6 +38,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
 
     private var curTimeInMillis = 0L
 
+    private var menu: Menu? = null
 
 
     override fun prepareUI(savedInstanceState: Bundle?) {
@@ -40,6 +48,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             map = it
             addAllPolylines()
         }
+        setHasOptionsMenu(true)
 
         subscribeToObservers()
 
@@ -49,6 +58,52 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
         binding.btnToggleRun.setOnClickListener {
             toggleRun()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.toolbar_tracking_menu, menu)
+        this.menu = menu
+
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+
+        if (curTimeInMillis > 0L) {
+            this.menu?.getItem(0)?.isVisible = true
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miCancelTracking -> {
+                showCancelTrackingDialog()
+                true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showCancelTrackingDialog() {
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle("Cancel the run?")
+            .setMessage("Are you sure to cancel the current run and delete all its data?")
+            .setIcon(R.drawable.ic_delete)
+            .setPositiveButton("Yes") { _, _ ->
+                stopRun()
+            }
+            .setNegativeButton("No") { dialogInterface, _ ->
+                dialogInterface.cancel()
+            }
+            .create()
+        dialog.show()
+    }
+
+    private fun stopRun() {
+        sendCommandToService(ACTION_STOP_SERVICE)
+        findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
 
     override fun onResume() {
@@ -98,7 +153,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             moveCameraToUser()
         }
 
-        TrackingService.timeRunInMillis.observe(viewLifecycleOwner){
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner) {
             curTimeInMillis = it
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
             binding.tvTimer.text = formattedTime
@@ -107,6 +162,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
 
     private fun toggleRun() {
         if (isTracking) {
+            menu?.getItem(0)?.isVisible = true
             sendCommandToService(ACTION_PAUSE_SERVICE)
         } else {
             sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
@@ -120,6 +176,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             binding.btnFinishRun.visibility = View.VISIBLE
         } else {
             binding.btnToggleRun.text = "Stop"
+            menu?.getItem(0)?.isVisible = true
             binding.btnFinishRun.visibility = View.GONE
         }
     }

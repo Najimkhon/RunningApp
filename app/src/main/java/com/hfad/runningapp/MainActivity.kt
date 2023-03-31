@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         navigateToTrackingFragmentIfNeeded(intent)
 
+        setSupportActionBar(binding.toolbar)
+
         navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
 
@@ -41,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.bottomNavigationView.setupWithNavController(navController)
+
+
     }
 
     override fun onNewIntent(intent: Intent?) {
