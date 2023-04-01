@@ -1,60 +1,53 @@
 package com.hfad.runningapp.ui.fragments
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.content.SharedPreferences
+import android.widget.TextView
+import com.google.android.material.snackbar.Snackbar
 import com.hfad.runningapp.R
+import com.hfad.runningapp.base.BaseFragment
+import com.hfad.runningapp.databinding.FragmentSettingsBinding
+import com.hfad.runningapp.utils.Constants.KEY_NAME
+import com.hfad.runningapp.utils.Constants.KEY_WEIGHT
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun setListeners() {
+        binding.btnApplyChanges.setOnClickListener{
+            val success = applyChangesToSharedPref()
+            if(success){
+                Snackbar.make(requireView(), "Saved changes", Snackbar.LENGTH_LONG ).show()
+            }else{
+                Snackbar.make(requireView(), "Please, fill out all the fields", Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+    private fun loadFieldsFromSharedPref(){
+        val name = sharedPreferences.getString(KEY_NAME, "")
+        val weight = sharedPreferences.getFloat(KEY_WEIGHT, 80f)
+        binding.etName.setText(name)
+        binding.etWeight.setText(weight.toString())
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun applyChangesToSharedPref(): Boolean {
+        val nameText = binding.etName.text.toString()
+        val weightText = binding.etWeight.text.toString()
+        if (nameText.isEmpty() || weightText.isEmpty()) {
+            return false
+        }
+        sharedPreferences.edit()
+            .putString(KEY_NAME, nameText)
+            .putFloat(KEY_WEIGHT, weightText.toFloat())
+            .apply()
+        val toolbarText = "Let's go, $nameText!"
+        requireActivity().findViewById<TextView>(R.id.tvToolbarTitle).text = toolbarText
+        return true
     }
+
 }
