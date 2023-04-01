@@ -5,7 +5,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hfad.runningapp.R
+import com.hfad.runningapp.adapters.RunAdapter
 import com.hfad.runningapp.base.BaseFragment
 import com.hfad.runningapp.databinding.FragmentRunBinding
 import com.hfad.runningapp.ui.viewmodels.MainViewModel
@@ -21,13 +23,26 @@ class RunFragment : BaseFragment<FragmentRunBinding>(FragmentRunBinding::inflate
 
     private val viewModel: MainViewModel by viewModels()
 
+    private lateinit var runAdapter: RunAdapter
+
     override fun prepareUI(savedInstanceState: Bundle?) {
         requestPermissions()
+        binding.rvRuns.apply {
+            runAdapter = RunAdapter(requireContext())
+            adapter = runAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
     }
 
     override fun setListeners() {
         binding.fab.setOnClickListener{
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
+        }
+    }
+
+    override fun setObservers() {
+        viewModel.runsSortedByDate.observe(viewLifecycleOwner){
+            runAdapter.submitList(it)
         }
     }
 
