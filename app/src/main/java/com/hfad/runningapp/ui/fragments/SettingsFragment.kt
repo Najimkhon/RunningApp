@@ -1,6 +1,7 @@
 package com.hfad.runningapp.ui.fragments
 
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.hfad.runningapp.R
@@ -16,6 +17,10 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    override fun prepareUI(savedInstanceState: Bundle?) {
+        loadFieldsFromSharedPref()
+    }
 
     override fun setListeners() {
         binding.btnApplyChanges.setOnClickListener{
