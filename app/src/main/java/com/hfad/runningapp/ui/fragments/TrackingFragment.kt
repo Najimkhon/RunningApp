@@ -30,6 +30,7 @@ import com.hfad.runningapp.utils.Constants.POLYLINE_WIDTH
 import com.hfad.runningapp.utils.TrackingUtility
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.round
 
 @AndroidEntryPoint
@@ -46,7 +47,8 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
 
     private var menu: Menu? = null
 
-    private val weight = 80f
+    @set:Inject
+    var weight = 80f
 
 
     override fun prepareUI(savedInstanceState: Bundle?) {
@@ -67,7 +69,7 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             toggleRun()
         }
 
-        binding.btnFinishRun.setOnClickListener{
+        binding.btnFinishRun.setOnClickListener {
             zoomToSeeWholeTrack()
             endRunAndSaveToDb()
         }
@@ -231,9 +233,10 @@ class TrackingFragment : BaseFragment<FragmentTrackingBinding>(FragmentTrackingB
             }
             val avgSpeed =
                 round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10f) / 10f
-                val dateTimestamp = Calendar.getInstance().timeInMillis
-                val caloriesBurned =  ((distanceInMeters/1000f) * weight).toInt()
-            val run = Run(bmp, dateTimestamp, avgSpeed, distanceInMeters, curTimeInMillis, caloriesBurned)
+            val dateTimestamp = Calendar.getInstance().timeInMillis
+            val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
+            val run =
+                Run(bmp, dateTimestamp, avgSpeed, distanceInMeters, curTimeInMillis, caloriesBurned)
             viewModel.insertRun(run)
             Snackbar.make(
                 requireActivity().findViewById(R.id.rootView),
